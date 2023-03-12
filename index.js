@@ -29,6 +29,40 @@ monsterImage.onload = function () {
 };
 monsterImage.src = "images/monster.png";
 
+// Monster1 image
+var monster1Ready = false;
+var monster1Image = new Image();
+monster1Image.onload = function () {
+    monster1Ready = true;
+};
+monster1Image.src = "images/monster.png";
+
+// Monster2 image
+var monster2Ready = false;
+var monster2Image = new Image();
+monster2Image.onload = function () {
+    monster2Ready = true;
+};
+monster2Image.src = "images/monster.png";
+
+// Monster3 image
+var monster3Ready = false;
+var monster3Image = new Image();
+monster3Image.onload = function () {
+    monster3Ready = true;
+};
+monster3Image.src = "images/monster.png";
+
+// Monster4 image
+var monster4Ready = false;
+var monster4Image = new Image();
+monster4Image.onload = function () {
+    monster4Ready = true;
+};
+monster4Image.src = "images/monster.png";
+
+
+
 
 // Game objects
 var hero = {
@@ -41,6 +75,22 @@ var monster = {
     x: 0,
     y: 0
 };
+var monster1 = {
+    x:0,
+    y:0
+}
+var monster2 = {
+    x:0,
+    y:0
+}
+var monster3 = {
+    x:0,
+    y:0
+}
+var monster4 = {
+    x:0,
+    y:0
+}
 var monstersCaught = 0;
 
 
@@ -88,6 +138,42 @@ var update = function (modifier) {
         ++monstersCaught;       // keep track of our “score”
         reset();       // start a new cycle
     }
+    if (
+        hero.x <= (monster1.x + 32)
+        && monster1.x <= (hero.x + 32)
+        && hero.y <= (monster1.y + 32)
+        && monster1.y <= (hero.y + 32)
+    ) {
+        ++monstersCaught;       // keep track of our “score”
+        reset();       // start a new cycle
+    }
+    if (
+        hero.x <= (monster2.x + 32)
+        && monster2.x <= (hero.x + 32)
+        && hero.y <= (monster2.y + 32)
+        && monster2.y <= (hero.y + 32)
+    ) {
+        ++monstersCaught;       // keep track of our “score”
+        reset();       // start a new cycle
+    }
+    if (
+        hero.x <= (monster3.x + 32)
+        && monster3.x <= (hero.x + 32)
+        && hero.y <= (monster3.y + 32)
+        && monster3.y <= (hero.y + 32)
+    ) {
+        ++monstersCaught;       // keep track of our “score”
+        reset();       // start a new cycle
+    }
+    if (
+        hero.x <= (monster4.x + 32)
+        && monster4.x <= (hero.x + 32)
+        && hero.y <= (monster4.y + 32)
+        && monster4.y <= (hero.y + 32)
+    ) {
+        ++monstersCaught;       // keep track of our “score”
+        reset();       // start a new cycle
+    }
 };
 
 
@@ -102,6 +188,18 @@ var render = function () {
     }
     if (monsterReady) {
         ctx.drawImage(monsterImage, monster.x, monster.y);
+    }
+    if (monster1Ready) {
+        ctx.drawImage(monster1Image, monster1.x, monster1.y);
+    }
+    if (monster2Ready) {
+        ctx.drawImage(monster1Image, monster2.x, monster2.y);
+    }
+    if (monster3Ready) {
+        ctx.drawImage(monster1Image, monster3.x, monster3.y);
+    }
+    if (monster4Ready) {
+        ctx.drawImage(monster4Image, monster4.x, monster4.y);
     }
     // Score
     ctx.fillStyle = "rgb(250, 250, 250)";
@@ -134,6 +232,18 @@ var reset = function () {
 // hedge 32 + hedge 32 + char 32 = 96
     monster.x = 32 + (Math.random() * (canvas.width - 96));
     monster.y = 32 + (Math.random() * (canvas.height - 96));
+
+    monster1.x = 32 + (Math.random() * (canvas.width - 96));
+    monster1.y = 32 + (Math.random() * (canvas.height - 96));
+
+    monster2.x = 32 + (Math.random() * (canvas.width - 96));
+    monster2.y = 32 + (Math.random() * (canvas.height - 96));
+
+    monster3.x = 32 + (Math.random() * (canvas.width - 96));
+    monster3.y = 32 + (Math.random() * (canvas.height - 96));
+
+    monster4.x = 32 + (Math.random() * (canvas.width - 96));
+    monster4.y = 32 + (Math.random() * (canvas.height - 96));
 };
 
 // Let's play this game!
