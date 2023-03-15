@@ -1,8 +1,8 @@
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-canvas.width = 1140;
-canvas.height = 650;
+canvas.width = 1024;
+canvas.height = 768;
 document.body.appendChild(canvas);
 
 // Background image
@@ -62,7 +62,15 @@ monster4Image.onload = function () {
 monster4Image.src = "images/monster4.png";
 
 
+// Bomb image
+var bombReady = false;
+var bombImage = new Image();
+bombImage.onload = function () {
+    bombReady = true;
+};
+bombImage.src = "images/bomb.png";
 
+//============================================================================
 
 // Game objects
 var hero = {
@@ -78,57 +86,87 @@ var monster = {
 var monster1 = {
     x:0,
     y:0
-}
+};
 var monster2 = {
     x:0,
     y:0
-}
+};
 var monster3 = {
     x:0,
     y:0
-}
+};
 var monster4 = {
     x:0,
     y:0
-}
+};
+
+var bomb1 = {
+    x:0,
+    y:0
+};
+
+var bomb2 = {
+    x:0,
+    y:0
+};
+
+var bomb3 = {
+    x:0,
+    y:0
+};
+
+var bomb4 = {
+    x:0,
+    y:0
+};
+
+var bomb5 = {
+    x:0,
+    y:0
+};
+
 var monstersCaught = 0;
 
 
-// Handle keyboard controls
+//////      HANDLE KEYBOARD CONTROLS      ////////
+
 var keysDown = {}; //object were we properties when keys go down
                 // and then delete them when the key goes up
 // so the object tells us if any key is down when that keycode
 // is down.  In our game loop, we will move the hero image if when
 // we go thru render, a key is down
+
 addEventListener("keydown", function (e) {
-    console.log(e.keyCode + " down")
     keysDown[e.keyCode] = true;
 }, false);
 addEventListener("keyup", function (e) {
-    console.log(e.keyCode + " up")
     delete keysDown[e.keyCode];
 }, false);
 
 // end of definitions
 
+
+
 //looped part of app
 
-
+//  MOVING HERO
 var update = function (modifier) {
    
-    if (38 in keysDown && hero.y > 32+4) { //  holding up key
+    if (38 in keysDown && hero.y > 32) { //  holding UP key
         hero.y -= hero.speed * modifier;
     }
-    if (40 in keysDown && hero.y < canvas.height - (64 + 6)) { //  holding down key
+    if (40 in keysDown && hero.y < canvas.height - 64) { //  holding DOWN key
         hero.y += hero.speed * modifier;
     }
-    if (37 in keysDown && hero.x > (32+4)) { // holding left key
+    if (37 in keysDown && hero.x > 32) { // holding LEFT key
         hero.x -= hero.speed * modifier;
     }
-    if (39 in keysDown && hero.x < canvas.width - (64 + 6)) { // holding right key
+    if (39 in keysDown && hero.x < canvas.width - 64) { // holding RIGHT key
         hero.x += hero.speed * modifier;
     }
-    //after moving hero x and y
+
+
+    //CHECKING IF THEY TOUCH
     if (
         hero.x <= (monster.x + 32)
         && monster.x <= (hero.x + 32)
@@ -136,6 +174,8 @@ var update = function (modifier) {
         && monster.y <= (hero.y + 32)
     ) {
         ++monstersCaught;       // keep track of our “score”
+
+        //monsterReady = false;
         reset();       // start a new cycle
     }
     if (
@@ -144,7 +184,9 @@ var update = function (modifier) {
         && hero.y <= (monster1.y + 32)
         && monster1.y <= (hero.y + 32)
     ) {
-        ++monstersCaught;       // keep track of our “score”
+        monstersCaught = monstersCaught+2;       // keep track of our “score”
+
+        //monster1Ready = false;
         reset();       // start a new cycle
     }
     if (
@@ -153,7 +195,9 @@ var update = function (modifier) {
         && hero.y <= (monster2.y + 32)
         && monster2.y <= (hero.y + 32)
     ) {
-        ++monstersCaught;       // keep track of our “score”
+        monstersCaught = monstersCaught+3;       // keep track of our “score”
+
+        //monster2Ready = false;
         reset();       // start a new cycle
     }
     if (
@@ -162,7 +206,9 @@ var update = function (modifier) {
         && hero.y <= (monster3.y + 32)
         && monster3.y <= (hero.y + 32)
     ) {
-        ++monstersCaught;       // keep track of our “score”
+        monstersCaught = monstersCaught+4;       // keep track of our “score”
+        
+        //monster3Ready = false;
         reset();       // start a new cycle
     }
     if (
@@ -171,11 +217,42 @@ var update = function (modifier) {
         && hero.y <= (monster4.y + 32)
         && monster4.y <= (hero.y + 32)
     ) {
-        ++monstersCaught;       // keep track of our “score”
+        monstersCaught = monstersCaught+5;       // keep track of our “score”
+        reset();       // start a new cycle
+    }
+
+    if (
+        (hero.x <= (bomb1.x + 32)
+        && bomb1.x <= (hero.x + 32)
+        && hero.y <= (bomb1.y + 32)
+        && bomb1.y <= (hero.y + 32)) 
+            ||
+        (hero.x <= (bomb2.x + 32)
+        && bomb2.x <= (hero.x + 32)
+        && hero.y <= (bomb2.y + 32)
+        && bomb2.y <= (hero.y + 32)) 
+            ||
+        (hero.x <= (bomb3.x + 32)
+        && bomb3.x <= (hero.x + 32)
+        && hero.y <= (bomb3.y + 32)
+        && bomb3.y <= (hero.y + 32))
+        ||
+        (hero.x <= (bomb4.x + 32)
+        && bomb4.x <= (hero.x + 32)
+        && hero.y <= (bomb4.y + 32)
+        && bomb4.y <= (hero.y + 32))
+        ||
+        (hero.x <= (bomb5.x + 32)
+        && bomb5.x <= (hero.x + 32)
+        && hero.y <= (bomb5.y + 32)
+        && bomb5.y <= (hero.y + 32))
+    ) {
+        monstersCaught = 0;       // keep track of our “score”
+        alert ("YOU LOST.... PLEASE PRESS 'F5' BUTTON TO START AGAIN!");
+        
         reset();       // start a new cycle
     }
 };
-
 
 
 // Draw everything in the main render function
@@ -201,18 +278,27 @@ var render = function () {
     if (monster4Ready) {
         ctx.drawImage(monster4Image, monster4.x, monster4.y);
     }
+    if (bombReady) {
+        ctx.drawImage(bombImage, bomb1.x, bomb1.y);
+        ctx.drawImage(bombImage, bomb2.x, bomb2.y);
+        ctx.drawImage(bombImage, bomb3.x, bomb3.y);
+        ctx.drawImage(bombImage, bomb4.x, bomb4.y);
+        ctx.drawImage(bombImage, bomb5.x, bomb5.y);
+    }
+
+
     // Score
     ctx.fillStyle = "rgb(250, 250, 250)";
     ctx.font = "24px Helvetica";
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
-    ctx.fillText("Gems collected: " + monstersCaught, 32, 32);
-
+    ctx.fillText("Collected gems cost:  $" + monstersCaught, 8, 8);
 }
 
 
-// The main game loop
-// The main game loop
+
+////////  The MAIN GAME LOOP  ///////////
+
 var main = function () {
     var now = Date.now();
     var delta = now - then;
@@ -223,13 +309,18 @@ var main = function () {
     requestAnimationFrame(main);
 };
 
+
+
 // Reset the game when the player catches a monster
 var reset = function () {
     hero.x = canvas.width / 2;
     hero.y = canvas.height / 2;
+
+
+
 //Place the monster somewhere on the screen randomly
-// but not in the hedges, Article in wrong, the 64 needs to be 
 // hedge 32 + hedge 32 + char 32 = 96
+
     monster.x = 32 + (Math.random() * (canvas.width - 96));
     monster.y = 32 + (Math.random() * (canvas.height - 96));
 
@@ -244,7 +335,24 @@ var reset = function () {
 
     monster4.x = 32 + (Math.random() * (canvas.width - 96));
     monster4.y = 32 + (Math.random() * (canvas.height - 96));
+
+    bomb1.x = 32 + (Math.random() * (canvas.width - 96));
+    bomb1.y = 32 + (Math.random() * (canvas.height - 96));
+
+    bomb2.x = 32 + (Math.random() * (canvas.width - 96));
+    bomb2.y = 32 + (Math.random() * (canvas.height - 96));
+
+    bomb3.x = 32 + (Math.random() * (canvas.width - 96));
+    bomb3.y = 32 + (Math.random() * (canvas.height - 96));
+    
+    bomb4.x = 32 + (Math.random() * (canvas.width - 96));
+    bomb4.y = 32 + (Math.random() * (canvas.height - 96));
+
+    bomb5.x = 32 + (Math.random() * (canvas.width - 96));
+    bomb5.y = 32 + (Math.random() * (canvas.height - 96));
 };
+
+
 
 // Let's play this game!
 var then = Date.now();
