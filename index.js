@@ -1,8 +1,8 @@
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-canvas.width = 512;
-canvas.height = 480;
+canvas.width = 1140;
+canvas.height = 650;
 document.body.appendChild(canvas);
 
 // Background image
@@ -35,7 +35,7 @@ var monster1Image = new Image();
 monster1Image.onload = function () {
     monster1Ready = true;
 };
-monster1Image.src = "images/monster.png";
+monster1Image.src = "images/monster1.png";
 
 // Monster2 image
 var monster2Ready = false;
@@ -43,7 +43,7 @@ var monster2Image = new Image();
 monster2Image.onload = function () {
     monster2Ready = true;
 };
-monster2Image.src = "images/monster.png";
+monster2Image.src = "images/monster2.png";
 
 // Monster3 image
 var monster3Ready = false;
@@ -51,7 +51,7 @@ var monster3Image = new Image();
 monster3Image.onload = function () {
     monster3Ready = true;
 };
-monster3Image.src = "images/monster.png";
+monster3Image.src = "images/monster3.png";
 
 // Monster4 image
 var monster4Ready = false;
@@ -59,7 +59,7 @@ var monster4Image = new Image();
 monster4Image.onload = function () {
     monster4Ready = true;
 };
-monster4Image.src = "images/monster.png";
+monster4Image.src = "images/monster4.png";
 
 
 
@@ -193,10 +193,10 @@ var render = function () {
         ctx.drawImage(monster1Image, monster1.x, monster1.y);
     }
     if (monster2Ready) {
-        ctx.drawImage(monster1Image, monster2.x, monster2.y);
+        ctx.drawImage(monster2Image, monster2.x, monster2.y);
     }
     if (monster3Ready) {
-        ctx.drawImage(monster1Image, monster3.x, monster3.y);
+        ctx.drawImage(monster3Image, monster3.x, monster3.y);
     }
     if (monster4Ready) {
         ctx.drawImage(monster4Image, monster4.x, monster4.y);
@@ -206,7 +206,7 @@ var render = function () {
     ctx.font = "24px Helvetica";
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
-    ctx.fillText("Goblins caught: " + monstersCaught, 32, 32);
+    ctx.fillText("Gems collected: " + monstersCaught, 32, 32);
 
 }
 
