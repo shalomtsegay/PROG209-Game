@@ -61,7 +61,6 @@ monster4Image.onload = function () {
 };
 monster4Image.src = "images/monster4.png";
 
-
 // Bomb image
 var bombReady = false;
 var bombImage = new Image();
@@ -69,6 +68,16 @@ bombImage.onload = function () {
     bombReady = true;
 };
 bombImage.src = "images/bomb.png";
+
+
+// SOUNDS
+
+var gameStart = "sounds/game_start.wav";  //  Game Start audio
+var gameOver = "sounds/game_over.wav";  //  Game Over audio
+var gameWin = "sounds/game_win.wav" // Game Win audio
+var gemAudio = "sounds/gems.wav" // Gem Collection audio
+var soundEfx = document.getElementById("soundEfx");
+
 
 //============================================================================
 
@@ -79,59 +88,59 @@ var hero = {
     y: 0  // where on the canvas are they?
 };
 var monster = {
-// for this version, the monster does not move, so just and x and y
+    // for this version, the monster does not move, so just and x and y
     x: 0,
     y: 0
 };
 var monster1 = {
-    x:0,
-    y:0
+    x: 0,
+    y: 0
 };
 var monster2 = {
-    x:0,
-    y:0
+    x: 0,
+    y: 0
 };
 var monster3 = {
-    x:0,
-    y:0
+    x: 0,
+    y: 0
 };
 var monster4 = {
-    x:0,
-    y:0
+    x: 0,
+    y: 0
 };
 
 var bomb1 = {
-    x:0,
-    y:0
+    x: 0,
+    y: 0
 };
 
 var bomb2 = {
-    x:0,
-    y:0
+    x: 0,
+    y: 0
 };
 
 var bomb3 = {
-    x:0,
-    y:0
+    x: 0,
+    y: 0
 };
 
 var bomb4 = {
-    x:0,
-    y:0
+    x: 0,
+    y: 0
 };
 
 var bomb5 = {
-    x:0,
-    y:0
+    x: 0,
+    y: 0
 };
 
-var monstersCaught = 0;
+var monstersCaught = 20;
 
 
 //////      HANDLE KEYBOARD CONTROLS      ////////
 
 var keysDown = {}; //object were we properties when keys go down
-                // and then delete them when the key goes up
+// and then delete them when the key goes up
 // so the object tells us if any key is down when that keycode
 // is down.  In our game loop, we will move the hero image if when
 // we go thru render, a key is down
@@ -151,7 +160,7 @@ addEventListener("keyup", function (e) {
 
 //  MOVING HERO
 var update = function (modifier) {
-   
+
     if (38 in keysDown && hero.y > 32) { //  holding UP key
         hero.y -= hero.speed * modifier;
     }
@@ -173,7 +182,9 @@ var update = function (modifier) {
         && hero.y <= (monster.y + 32)
         && monster.y <= (hero.y + 32)
     ) {
-        ++monstersCaught;       // keep track of our “score”
+        monstersCaught = monstersCaught - 1;       // keep track of our “score”
+        soundEfx.src = gemAudio;
+        soundEfx.play();
 
         //monsterReady = false;
         reset();       // start a new cycle
@@ -184,7 +195,9 @@ var update = function (modifier) {
         && hero.y <= (monster1.y + 32)
         && monster1.y <= (hero.y + 32)
     ) {
-        monstersCaught = monstersCaught+2;       // keep track of our “score”
+        monstersCaught = monstersCaught - 2;       // keep track of our “score”
+        soundEfx.src = gemAudio;
+        soundEfx.play();
 
         //monster1Ready = false;
         reset();       // start a new cycle
@@ -195,7 +208,9 @@ var update = function (modifier) {
         && hero.y <= (monster2.y + 32)
         && monster2.y <= (hero.y + 32)
     ) {
-        monstersCaught = monstersCaught+3;       // keep track of our “score”
+        monstersCaught = monstersCaught - 3;       // keep track of our “score”
+        soundEfx.src = gemAudio;
+        soundEfx.play();
 
         //monster2Ready = false;
         reset();       // start a new cycle
@@ -206,8 +221,10 @@ var update = function (modifier) {
         && hero.y <= (monster3.y + 32)
         && monster3.y <= (hero.y + 32)
     ) {
-        monstersCaught = monstersCaught+4;       // keep track of our “score”
-        
+        monstersCaught = monstersCaught - 4;       // keep track of our “score”
+        soundEfx.src = gemAudio;
+        soundEfx.play();
+
         //monster3Ready = false;
         reset();       // start a new cycle
     }
@@ -217,42 +234,59 @@ var update = function (modifier) {
         && hero.y <= (monster4.y + 32)
         && monster4.y <= (hero.y + 32)
     ) {
-        monstersCaught = monstersCaught+5;       // keep track of our “score”
-        reset();       // start a new cycle
+        monstersCaught = monstersCaught - 5;       // keep track of our “score”
+        soundEfx.src = gemAudio;
+        soundEfx.play();
+        reset();                                   // start a new cycle
     }
 
     if (
-        (hero.x <= (bomb1.x + 32)
-        && bomb1.x <= (hero.x + 32)
-        && hero.y <= (bomb1.y + 32)
-        && bomb1.y <= (hero.y + 32)) 
-            ||
-        (hero.x <= (bomb2.x + 32)
-        && bomb2.x <= (hero.x + 32)
-        && hero.y <= (bomb2.y + 32)
-        && bomb2.y <= (hero.y + 32)) 
-            ||
-        (hero.x <= (bomb3.x + 32)
-        && bomb3.x <= (hero.x + 32)
-        && hero.y <= (bomb3.y + 32)
-        && bomb3.y <= (hero.y + 32))
+        (hero.x <= (bomb1.x + 50)
+            && bomb1.x <= (hero.x + 16)
+            && hero.y <= (bomb1.y + 55)
+            && bomb1.y <= (hero.y + 16))
         ||
-        (hero.x <= (bomb4.x + 32)
-        && bomb4.x <= (hero.x + 32)
-        && hero.y <= (bomb4.y + 32)
-        && bomb4.y <= (hero.y + 32))
+        (hero.x <= (bomb2.x + 50)
+            && bomb2.x <= (hero.x + 16)
+            && hero.y <= (bomb2.y + 55)
+            && bomb2.y <= (hero.y + 16))
         ||
-        (hero.x <= (bomb5.x + 32)
-        && bomb5.x <= (hero.x + 32)
-        && hero.y <= (bomb5.y + 32)
-        && bomb5.y <= (hero.y + 32))
+        (hero.x <= (bomb3.x + 50)
+            && bomb3.x <= (hero.x + 16)
+            && hero.y <= (bomb3.y + 55)
+            && bomb3.y <= (hero.y + 16))
+        ||
+        (hero.x <= (bomb4.x + 50)
+            && bomb4.x <= (hero.x + 16)
+            && hero.y <= (bomb4.y + 55)
+            && bomb4.y <= (hero.y + 16))
+        ||
+        (hero.x <= (bomb5.x + 50)
+            && bomb5.x <= (hero.x + 16)
+            && hero.y <= (bomb5.y + 55)
+            && bomb5.y <= (hero.y + 16))
     ) {
-        monstersCaught = 0;       // keep track of our “score”
-        alert ("YOU LOST.... PLEASE PRESS 'F5' BUTTON TO START AGAIN!");
-        
-        reset();       // start a new cycle
+        keysDown = {};
+        soundEfx.src = gameOver;
+        soundEfx.play();                    // Pay Game Over Sound
+
+        monstersCaught = 20;               // keep track of our “score”
+        alert("YOU LOST! TRY AGAIN.");
+        reset();                            // start a new cycle
+    }
+
+    if (monstersCaught <= 0) {
+        keysDown = {};
+        soundEfx.src = gameWin;
+        soundEfx.play();
+        alert("You WON!!!!");
+        monstersCaught = 20;
+        reset();
+
     }
 };
+
+
 
 
 // Draw everything in the main render function
@@ -297,6 +331,7 @@ var render = function () {
 
 
 
+
 ////////  The MAIN GAME LOOP  ///////////
 
 var main = function () {
@@ -318,8 +353,9 @@ var reset = function () {
 
 
 
-//Place the monster somewhere on the screen randomly
-// hedge 32 + hedge 32 + char 32 = 96
+
+    //Place the monster somewhere on the screen randomly
+    // hedge 32 + hedge 32 + char 32 = 96
 
     monster.x = 32 + (Math.random() * (canvas.width - 96));
     monster.y = 32 + (Math.random() * (canvas.height - 96));
@@ -336,20 +372,20 @@ var reset = function () {
     monster4.x = 32 + (Math.random() * (canvas.width - 96));
     monster4.y = 32 + (Math.random() * (canvas.height - 96));
 
-    bomb1.x = 32 + (Math.random() * (canvas.width - 96));
-    bomb1.y = 32 + (Math.random() * (canvas.height - 96));
+    bomb1.x = 32 + (Math.random() * (canvas.width - 120));
+    bomb1.y = 32 + (Math.random() * (canvas.height - 120));
 
-    bomb2.x = 32 + (Math.random() * (canvas.width - 96));
-    bomb2.y = 32 + (Math.random() * (canvas.height - 96));
+    bomb2.x = 32 + (Math.random() * (canvas.width - 120));
+    bomb2.y = 32 + (Math.random() * (canvas.height - 120));
 
-    bomb3.x = 32 + (Math.random() * (canvas.width - 96));
-    bomb3.y = 32 + (Math.random() * (canvas.height - 96));
-    
-    bomb4.x = 32 + (Math.random() * (canvas.width - 96));
-    bomb4.y = 32 + (Math.random() * (canvas.height - 96));
+    bomb3.x = 32 + (Math.random() * (canvas.width - 120));
+    bomb3.y = 32 + (Math.random() * (canvas.height - 120));
 
-    bomb5.x = 32 + (Math.random() * (canvas.width - 96));
-    bomb5.y = 32 + (Math.random() * (canvas.height - 96));
+    bomb4.x = 32 + (Math.random() * (canvas.width - 120));
+    bomb4.y = 32 + (Math.random() * (canvas.height - 120));
+
+    bomb5.x = 32 + (Math.random() * (canvas.width - 120));
+    bomb5.y = 32 + (Math.random() * (canvas.height - 120));
 };
 
 
