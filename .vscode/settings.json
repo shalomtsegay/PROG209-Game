@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/39f95456-b9ad-4022-b5cc-095a4ce5bec2/resourceGroups/appsvc_windows_centralus/providers/Microsoft.Web/sites/GemGame",
+    "appService.deploySubpath": "."
+}
