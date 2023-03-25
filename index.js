@@ -13,6 +13,14 @@ bgImage.onload = function () {
 };
 bgImage.src = "images/background.png";
 
+// Gems image
+var gemsReady = false;
+var gemsImage = new Image();
+gemsImage.onload = function () {
+    gemsReady = true;
+};
+gemsImage.src = "images/gems.png";
+
 // Hero image
 var heroReady = false;
 var heroImage = new Image();
@@ -151,22 +159,26 @@ var gem5 = {
 
 var bomb1 = {
     x: 0,
-    y: 0
+    y: 0,
+    direction:  1
 };
 
 var bomb2 = {
     x: 0,
-    y: 0
+    y: 0,
+    direction:  1
 };
 
 var bomb3 = {
     x: 0,
-    y: 0
+    y: 0,
+    direction:  1
 };
 
 var bomb4 = {
     x: 0,
-    y: 0
+    y: 0,
+    direction:  1
 };
 
 var nextL = {
@@ -237,6 +249,39 @@ var update = function (modifier) {
         up = false;
         down = false;
     }
+
+
+    bomb1.x = bomb1.x + (4 * bomb1.direction);
+	if(bomb1.x > 1300){
+		bomb1.direction = -1;
+	}
+	if(bomb1.x < 50){
+		bomb1.direction = 1;
+	}
+
+    bomb2.x = bomb2.x + (4 * bomb2.direction);
+	if(bomb2.x > 1400){
+		bomb2.direction = -1;
+	}
+	if(bomb2.x < 50){
+		bomb2.direction = 1;
+	}
+
+    bomb3.y = bomb3.y + (4 * bomb3.direction);
+	if(bomb3.y > 500){
+		bomb3.direction = -1;
+	}
+	if(bomb3.y < 50){
+		bomb3.direction = 1;
+	}
+
+    bomb4.y = bomb4.y + (4 * bomb4.direction);
+	if(bomb4.y > 500){
+		bomb4.direction = -1;
+	}
+	if(bomb4.y < 50){
+		bomb4.direction = 1;
+	}
 
 
     //CHECKING IF HERO TOUCHS GEMS
@@ -413,6 +458,11 @@ var render = function () {
     if (bgReady) {
         ctx.drawImage(bgImage, 0, 0);
     }
+
+    if (gemsReady) {
+        ctx.drawImage(gemsImage, 1200, 5);
+    }
+
     // if (heroReady) {
     //     ctx.drawImage(heroImage, hero.x, hero.y);
     // }
@@ -497,17 +547,17 @@ var reset = function () {
     gem5.x = 32 + (Math.random() * (canvas.width - 96));
     gem5.y = 32 + (Math.random() * (canvas.height - 96));
 
-    bomb1.x = 32 + (Math.random() * (canvas.width - 120));
+    bomb1.x = canvas.width - 120;
     bomb1.y = 32 + (Math.random() * (canvas.height - 120));
 
-    bomb2.x = 32 + (Math.random() * (canvas.width - 120));
+    bomb2.x = 50;
     bomb2.y = 32 + (Math.random() * (canvas.height - 120));
 
     bomb3.x = 32 + (Math.random() * (canvas.width - 120));
-    bomb3.y = 32 + (Math.random() * (canvas.height - 120));
+    bomb3.y = canvas.height - 120;
 
-    bomb4.x = 32 + (Math.random() * (canvas.width - 120));
-    bomb4.y = 32 + (Math.random() * (canvas.height - 120));
+    bomb4.x = canvas.width - 120;
+    bomb4.y = canvas.height - 120;
 
     nextL.x = canvas.width - 90;
     nextL.y = canvas.height - 400;
@@ -520,7 +570,7 @@ function GameOver(){
     soundEfx.src = gameOver;
     soundEfx.play();                    // Play GameOver Sound
 
-    gemCost = 20;                       // Reset the “Score”
+    gemCost = 50;                       // Reset the “Score”
     alert("YOU LOST! TRY AGAIN.");
     reset();                            // Starts a new game
 }
